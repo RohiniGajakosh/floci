@@ -17,7 +17,6 @@ jobs:
             
             - name: Terraform Init and Plan
               run: |
-                cd terraform
                 terraform init
                 terraform plan -out=tfplan
             - name: Terraform Validate 
@@ -26,7 +25,6 @@ jobs:
                 terraform validate
             - name: Terraform Format Check
               run: |
-                cd terraform
                 terraform fmt -check
             - name: Store Terraform Plan Artifact
               uses: actions/upload-artifact@v4
@@ -50,6 +48,5 @@ jobs:
                 path: terraform/
             - name: Terraform Init and Apply
               run: |
-               cd terraform
                terraform init
                terraform apply --auto-approve tfplan
