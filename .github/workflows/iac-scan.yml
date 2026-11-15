@@ -1,0 +1,55 @@
+name : iac scan pipeline
+on:
+  push:
+    branches: ["main"]
+jobs:
+    plan:
+        runs-on: my-selfhosted-runner
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v3
+            - name: setup Terraform
+              uses: hashicorp/setup-terraform@v2
+            - name: Run Checkov Security Scan
+              run: |
+                pip install checkov
+                checkov -d terraform/ --soft-fail
+            
+            - name: Terraform Init and Plan
+              run: |
+                cd terraform
+                terraform init
+                terraform plan -out=tfplan
+            - name: Terraform Validate 
+              run: |
+                cd terraform
+                terraform validate
+            - name: Terraform Format Check
+              run: |
+                cd terraform
+                terraform fmt -check
+            - name: Store Terraform Plan Artifact
+              uses: actions/upload-artifact@v3
+              with:
+                name: terraform-plan
+                path: terraform/tfplan
+                retention-days: 1
+    apply:
+        needs: plan
+        environment: production
+        runs-on: my-selfhosted-runner
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v3
+            - name: setup Terraform
+              uses: hashicorp/setup-terraform@v2
+            - name: Download Terraform Plan Artifact
+              uses: actions/download-artifact@v3
+              with:
+                name: terraform-plan
+                path: terraform/
+            - name: Terraform Init and Apply
+              run: |
+               cd terraform
+               terraform init
+               terraform apply --auto-approve tfplan

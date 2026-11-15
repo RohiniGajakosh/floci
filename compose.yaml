@@ -1,0 +1,12 @@
+services:
+  floci:
+    image: floci/floci:latest
+    ports:
+      - "4566:4566"
+    environment:
+      - PERSISTENCE=1   #stores the aws resources rather than wiping from memory when containers shut down
+    volumes:
+      - "localstack-data:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+volumes:
+  localstack-data:
