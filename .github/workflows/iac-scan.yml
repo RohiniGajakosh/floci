@@ -29,7 +29,7 @@ jobs:
                 cd terraform
                 terraform fmt -check
             - name: Store Terraform Plan Artifact
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                 name: terraform-plan
                 path: terraform/tfplan
@@ -44,7 +44,7 @@ jobs:
             - name: setup Terraform
               uses: hashicorp/setup-terraform@v2
             - name: Download Terraform Plan Artifact
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v4
               with:
                 name: terraform-plan
                 path: terraform/
