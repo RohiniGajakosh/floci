@@ -21,7 +21,6 @@ jobs:
                 terraform plan -out=tfplan
             - name: Terraform Validate 
               run: |
-                cd terraform
                 terraform validate
             - name: Terraform Format Check
               run: |
