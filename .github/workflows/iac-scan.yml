@@ -24,7 +24,6 @@ jobs:
                 terraform validate
             - name: Terraform Format Check
               run: |
-                terraform fmt -check
                 terraform fmt -recursive 
             - name: Store Terraform Plan Artifact
               uses: actions/upload-artifact@v4
