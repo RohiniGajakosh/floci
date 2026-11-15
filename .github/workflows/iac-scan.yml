@@ -4,7 +4,7 @@ on:
     branches: ["main"]
 jobs:
     plan:
-        runs-on: my-selfhosted-runner
+        runs-on: selfhosted
         steps:
             - name: checkout code
               uses: actions/checkout@v3
@@ -37,7 +37,7 @@ jobs:
     apply:
         needs: plan
         environment: production
-        runs-on: my-selfhosted-runner
+        runs-on: selfhosted
         steps:
             - name: checkout code
               uses: actions/checkout@v3
